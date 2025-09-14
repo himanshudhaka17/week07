@@ -14,7 +14,7 @@ env:
   ACR_NAME: sit722acr223904638
   ACR_LOGIN_SERVER: sit722acr223904638.azurecr.io
   IMAGE_TAG: ${{ github.sha }}-${{ github.run_id }}
-  SKIP_PUSH: 'true'   # TEMP: skip build/push to get a clean "push" run
+  SKIP_PUSH: 'true'   # TEMP: skip build/push so the run can succeed without Azure
 
 jobs:
   test_and_lint_backends:
@@ -79,7 +79,7 @@ jobs:
         run: pytest tests --maxfail=1 --disable-warnings -q
 
   build_and_push_images:
-    if: ${{ env.SKIP_PUSH != 'true' }}   # TEMP: skip entire job
+    if: ${{ env.SKIP_PUSH != 'true' }}  # TEMP: entire job is skipped
     runs-on: ubuntu-latest
     needs: test_and_lint_backends
     steps:
